@@ -1,17 +1,25 @@
 import React from 'react'
-import { Tasks } from '../../api/tasks';
+import classnames from 'classnames';
 
-export default props => {
-    
-    const taskClassName = props.task.checked ? 'checked' : '';
-    
+export default ({ task, showPrivateButton }) => {
+
     const deleteThisTask = () => {
-        Tasks.remove({ _id: props.task._id })
+        Meteor.call('tasks.remove', task._id);
     }
-    
+
     const toggleChecked = () => {
-        Tasks.update({ _id: props.task._id }, { $set: { checked: !props.task.checked } });
+        Meteor.call('tasks.setChecked', task._id, !task.checked);
     }
+
+    const togglePrivate = () => {
+        Meteor.call('tasks.setPrivate', task._id, !task.private)
+    }
+
+    const taskClassName = classnames({
+        checked: task.checked,
+        private: task.private,
+    });
+
 
     return (
         <li className={taskClassName} >
@@ -25,10 +33,18 @@ export default props => {
             <input
                 type="checkbox"
                 readOnly
-                checked={props.task.checked}
+                checked={task.checked}
                 onClick={toggleChecked}
             />
-            <span><strong>{props.task.username}</strong> {props.task.text}</span>
+
+            {showPrivateButton ? (
+                <button className='toggle-private' onClick={togglePrivate}>
+                    {task.private ? 'Private' : 'Public'}
+
+                </button>
+            ) : ''}
+
+            <span className='text'><strong>{task.username}</strong> {task.text}</span>
         </li >
     )
 }

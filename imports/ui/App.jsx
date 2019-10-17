@@ -15,18 +15,22 @@ const App = props => {
         if (hideCompleted) {
             filteredTask = filteredTask.filter(task => !task.checked);
         }
-        return filteredTask.map(task => <Task key={task._id} task={task} />);
+        return filteredTask.map(task => {
+            const currentUserId = props.currentUser && props.currentUser._id;
+            const showPrivateButton = task.owner === currentUserId;
+            
+            return <Task
+                key={task._id}
+                task={task}
+                showPrivateButton={showPrivateButton}
+            />
+        });
     }
 
     const handleSubmit = e => {
         e.preventDefault();
 
-        Tasks.insert({
-            text: textInput.current.value,
-            createdAt: new Date(),
-            owner: Meteor.userId(),
-            username: Meteor.user().username,
-        })
+        Meteor.call('tasks.insert', textInput.current.value);
 
         textInput.current.value = '';
     }
@@ -46,7 +50,7 @@ const App = props => {
                 </label>
 
                 <AccountsUIWrapper />
-                { props.currentUser ?
+                {props.currentUser ?
                     <form className='new-task' onSubmit={handleSubmit}>
                         <input
                             type="text"
@@ -65,6 +69,8 @@ const App = props => {
 }
 
 export default withTracker(() => {
+    Meteor.subscribe('tasks.all');
+
     return {
         tasks: Tasks.find({}, { sort: { createdAt: -1 } }).fetch(),
         incompleteTasks: Tasks.find({ checked: { $ne: true } }).count(),
