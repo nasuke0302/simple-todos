@@ -21,7 +21,12 @@ const App = props => {
     const handleSubmit = e => {
         e.preventDefault();
 
-        Tasks.insert({ text: textInput.current.value, createdAt: new Date() })
+        Tasks.insert({
+            text: textInput.current.value,
+            createdAt: new Date(),
+            owner: Meteor.userId(),
+            username: Meteor.user().username,
+        })
 
         textInput.current.value = '';
     }
@@ -41,14 +46,15 @@ const App = props => {
                 </label>
 
                 <AccountsUIWrapper />
-
-                <form className='new-task' onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        ref={textInput}
-                        placeholder='Type to add new tasks'
-                    />
-                </form>
+                { props.currentUser ?
+                    <form className='new-task' onSubmit={handleSubmit}>
+                        <input
+                            type="text"
+                            ref={textInput}
+                            placeholder='Type to add new tasks'
+                        />
+                    </form> : ''
+                }
             </header>
 
             <ul>
@@ -61,6 +67,7 @@ const App = props => {
 export default withTracker(() => {
     return {
         tasks: Tasks.find({}, { sort: { createdAt: -1 } }).fetch(),
-        incompleteTasks: Tasks.find({ checked: { $ne: true } }).count()
+        incompleteTasks: Tasks.find({ checked: { $ne: true } }).count(),
+        currentUser: Meteor.user()
     };
 })(App);

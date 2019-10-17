@@ -28,7 +28,7 @@ export default props => {
                 checked={props.task.checked}
                 onClick={toggleChecked}
             />
-            <span>{props.task.text}</span>
+            <span><strong>{props.task.username}</strong> {props.task.text}</span>
         </li >
     )
 }
