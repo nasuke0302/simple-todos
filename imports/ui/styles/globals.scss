@@ -1,0 +1,31 @@
+$main: rgb(65, 180, 170);
+$components: rgb(197, 197, 197);
+
+.page-wrapper {
+    background-color: white;
+    font-family     : -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+    .header-wrapper {
+        display        : flex;
+        flex-flow      : row nowrap;
+        justify-content: flex-end;
+        align-items    : center;
+
+        h1 {
+            text-align: center;
+            flex-grow : 1;
+        }
+
+        span {
+            font-size: 3rem;
+        }
+    }
+}
+
+@mixin btn {
+    border       : none;
+    border-bottom: 1px solid $components;
+    &:focus {
+        outline: none;
+    }
+}
