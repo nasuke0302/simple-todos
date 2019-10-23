@@ -1,9 +1,11 @@
 import React, { useRef } from 'react'
 import { useHistory } from 'react-router'
+import { withTracker } from 'meteor/react-meteor-data';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell, faTag } from '@fortawesome/free-solid-svg-icons'
+import { Categories } from '../../api/categories'
 
-export default props => {
+const AddPageContainer = props => {
     const text = useRef('text');
     const date = useRef('date');
     const category = useRef('category');
@@ -24,6 +26,8 @@ export default props => {
         })
     }
 
+    const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1, string.length);
+
     return (
         <div className='page-wrapper'>
             <div className='header-wrapper'>
@@ -33,15 +37,20 @@ export default props => {
             <div className="body-wrapper">
                 <form className='add-task-form' onSubmit={handleSubmit}>
                     <label htmlFor="text">What are you planning?</label>
-                    <textarea name='text' rows='8' ref={text} />
+                    <textarea name='text' rows='8' ref={text} required/>
                     <div className="inputs-wrapper">
                         <div className='inline-input'>
                             <FontAwesomeIcon icon={faBell} />
-                            <input type="datetime" ref={date} />
+                            <input type="datetime" ref={date} required/>
                         </div>
                         <div className='inline-input'>
                             <FontAwesomeIcon icon={faTag} />
-                            <input type="text" ref={category} />
+                            <select ref={category} required defaultValue>
+                                <option value="">( pick one )</option>
+                                {props.categories.map(cat => {
+                                    return <option key={cat._id} value={cat.name}>{capitalize(cat.name)}</option>
+                                })}
+                            </select>
                         </div>
                     </div>
                     <div className="submit-btn">
@@ -52,3 +61,13 @@ export default props => {
         </div>
     )
 }
+
+
+
+export default withTracker(() => {
+    Meteor.subscribe('categories.all');
+
+    return {
+        categories: Categories.find({}).fetch(),
+    };
+})(AddPageContainer);

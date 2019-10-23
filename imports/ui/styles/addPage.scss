@@ -41,6 +41,9 @@
                 input {
                     @include btn;
                 }
+                select {
+                    @include btn;
+                }
             }
         }
 

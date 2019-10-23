@@ -1,8 +1,9 @@
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 
-export const Tasks = new Mongo.Collection('tasks');
+import { Categories } from './categories'
 
+export const Tasks = new Mongo.Collection('tasks');
 
 if (Meteor.isServer) {
     Meteor.publish('tasks.all', function () {
@@ -10,18 +11,14 @@ if (Meteor.isServer) {
     });
 }
 
-
 Meteor.methods({
     'tasks.insert'({ text, date, category }) {
         check(text, String);
         check(category, String);
 
-        Tasks.insert({
-            text,
-            date, 
-            category,
-            createdAt: new Date(),
-        });
+        Tasks.insert({ text, date, category, createdAt: new Date() });
+
+        Categories.update({ name: category }, { $inc: { taskCount: 1 } });
     },
     'tasks.remove'(taskId) {
         check(taskId, String);
