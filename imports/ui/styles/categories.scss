@@ -1,0 +1,28 @@
+.categories-wrapper {
+    display        : flex;
+    flex-flow      : row wrap;
+    justify-content: space-around;
+    padding        : 0 !important;
+    background     : rgb(232, 235, 235);
+    margin         : 0 !important;
+
+    .category {
+        list-style   : none;
+        width        : 35vw;
+        height       : 20vh;
+        background   : white;
+        border-radius: 10px;
+        padding      : .8em;
+        margin       : .5em 0;
+        display: flex;
+        flex-flow: column;
+        justify-content: flex-end;
+        div {
+            flex-grow: 1;
+        }
+        h3,
+        p {
+            margin: 0;
+        }
+    }
+}

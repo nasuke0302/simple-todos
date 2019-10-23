@@ -12,8 +12,8 @@ const browserHistory = createBrowserHistory();
 export const renderRoutes = () => (
     <Router history={browserHistory}>
         <Switch>
-            <Route exact path="/add" component={ListPageContainer} />
-            <Route exact path="/" component={AddPageContainer} />
+            <Route exact path="/" component={ListPageContainer} />
+            <Route exact path="/add" component={AddPageContainer} />
         </Switch>
     </Router>
 );

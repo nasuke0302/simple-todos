@@ -3,7 +3,9 @@ import { useHistory } from 'react-router'
 import { withTracker } from 'meteor/react-meteor-data';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell, faTag } from '@fortawesome/free-solid-svg-icons'
+
 import { Categories } from '../../api/categories'
+import { capitalize } from '../../startup/helpers'
 
 const AddPageContainer = props => {
     const text = useRef('text');
@@ -26,13 +28,15 @@ const AddPageContainer = props => {
         })
     }
 
-    const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1, string.length);
+    const handleClose = () => {
+        history.push('/')
+    }
 
     return (
         <div className='page-wrapper'>
             <div className='header-wrapper'>
                 <h1>New Task</h1>
-                <span>&times;</span>
+                <span onClick={handleClose}>&times;</span>
             </div>
             <div className="body-wrapper">
                 <form className='add-task-form' onSubmit={handleSubmit}>
