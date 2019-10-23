@@ -10,15 +10,15 @@ if (Meteor.isServer) {
 
     const createInitialCategories = () => {
         const initCats = [
-            { name: 'travel', taskCount: 0 },
-            { name: 'work', taskCount: 0 },
-            { name: 'music', taskCount: 0 },
-            { name: 'study', taskCount: 0 },
-            { name: 'home', taskCount: 0 },
-            { name: 'shopping', taskCount: 0 },
+            { name: 'work', taskCount: 0, icon: 'briefcase', iconColor: '#fad56e' },
+            { name: 'travel', taskCount: 0, icon: 'plane-departure', iconColor: '#6efa91' },
+            { name: 'music', taskCount: 0, icon: 'headphones', iconColor: '#fa6e6e' },
+            { name: 'study', taskCount: 0, icon: 'book', iconColor: '#d96efa' },
+            { name: 'home', taskCount: 0, icon: 'home', iconColor: '#faa66e' },
+            { name: 'shopping', taskCount: 0, icon: 'shopping-cart', iconColor: '#6ea4fa' },
         ]
-        initCats.map(cat => Categories.insert(cat));
+        initCats.map(cat => Categories.upsert({ name: cat.name }, cat));
     }
-    
-    if (Categories.find().count() === 0) createInitialCategories()
+
+    /* if (Categories.find().count() === 0)  */createInitialCategories()
 }

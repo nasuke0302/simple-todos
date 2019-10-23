@@ -1,7 +1,6 @@
 import React from 'react'
 import { withTracker } from 'meteor/react-meteor-data';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBell } from '@fortawesome/free-solid-svg-icons'
 
 import { Categories } from '../../api/categories'
 import { capitalize } from '../../startup/helpers'
@@ -12,7 +11,7 @@ const CategoriesList = props => {
             {props.categories.map(cat => {
                 return (
                     <li className='category' key={cat._id}>
-                        <div><FontAwesomeIcon icon={faBell} size='2x' /></div>
+                        <div><FontAwesomeIcon icon={cat.icon} size='2x' color={cat.iconColor}  /></div>
                         <h3>{capitalize(cat.name)}</h3>
                         <p>{cat.taskCount} Tasks</p>
                     </li>
@@ -20,7 +19,7 @@ const CategoriesList = props => {
             })}
         </ul>
     );
-};
+}
 
 export default withTracker(() => {
     Meteor.subscribe('categories.all');
