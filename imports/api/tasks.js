@@ -6,23 +6,21 @@ export const Tasks = new Mongo.Collection('tasks');
 
 if (Meteor.isServer) {
     Meteor.publish('tasks.all', function () {
-        return Tasks.find({ owner: this.userId })
+        return Tasks.find()
     });
 }
 
 
 Meteor.methods({
-    'tasks.insert'(text) {
+    'tasks.insert'({ text, date, category }) {
         check(text, String);
-        if (!this.userId) {
-            throw new Meteor.Error('not-authorized');
-        }
+        check(category, String);
 
         Tasks.insert({
             text,
+            date, 
+            category,
             createdAt: new Date(),
-            owner: this.userId,
-            username: Meteor.users.findOne({ _id: this.userId }).username,
         });
     },
     'tasks.remove'(taskId) {
