@@ -7,6 +7,11 @@ You need Meteor installed locally
 
 ### Installation
 
+Once you installed `meteor` do:
+
 ```
-until finished
+$ meteor npm install
+$ meteor
 ```
+
+And thats it!
