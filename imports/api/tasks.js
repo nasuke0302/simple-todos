@@ -9,6 +9,10 @@ if (Meteor.isServer) {
     Meteor.publish('tasks.all', function () {
         return Tasks.find()
     });
+
+    Meteor.publish('tasks.byCategoryName', function (category) {
+        return Tasks.find({ category })
+    });
 }
 
 Meteor.methods({
@@ -16,7 +20,7 @@ Meteor.methods({
         check(text, String);
         check(category, String);
 
-        Tasks.insert({ text, date, category, createdAt: new Date() });
+        Tasks.insert({ text, date, category, createdAt: new Date(), checked: false });
 
         Categories.update({ name: category }, { $inc: { taskCount: 1 } });
     },
@@ -31,16 +35,11 @@ Meteor.methods({
 
         Tasks.remove({ _id: taskId });
     },
-    'tasks.setChecked'(taskId, setChecked) {
-        check(taskId, String);
-        check(setChecked, Boolean);
+    'tasks.setChecked'(_id, checked) {
+        check(_id, String);
+        check(checked, Boolean);
 
-        const task = Tasks.findOne({ _id: taskId });
-        if (task.private && task.owner !== this.userId) {
-            throw new Meteor.Error('not-authorized');
-        }
-
-        Tasks.update({ _id: taskId }, { $set: { checked: setChecked } });
+        Tasks.update({ _id }, { $set: { checked: !checked } });
     },
     'tasks.setPrivate'(taskId, setToPrivate) {
         check(taskId, String);

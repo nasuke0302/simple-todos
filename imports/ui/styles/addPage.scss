@@ -61,10 +61,20 @@
 
                 input {
                     @include btn;
+                    font-size: 1.5em;
+                    width: 60%
                 }
 
                 select {
                     @include btn;
+                    font-size: 1.5em;
+                    width: 60%;
+                    background: transparent;
+                    &::selection {
+                        background: white;
+                        color: gray;
+                        
+                    }
                 }
             }
         }

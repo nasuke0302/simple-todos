@@ -1,0 +1,39 @@
+.tasks-page-wrapper {
+    display   : flex;
+    flex-flow : column;
+    height    : 100vh;
+    background: $main;
+}
+
+.upper-section {
+    color      : white;
+    font-family: inherit;
+    padding    : 1em;
+    padding-top: 0;
+
+    .header {
+        display        : flex;
+        justify-content: space-between;
+        margin-bottom  : 1em;
+        margin-top     : 1em;
+
+        span {
+            padding: 1em;
+        }
+    }
+}
+
+.lower-section {
+    background             : white;
+    color                  : black;
+    border-top-left-radius : 1.5em;
+    border-top-right-radius: 1.5em;
+    height                 : 100%;
+    overflow               : auto;
+    padding-bottom         : 5em;
+}
+
+.list {
+    padding-left: 0 !important;
+    list-style  : none;
+}

@@ -23,13 +23,13 @@ const AddPageContainer = props => {
             category: category.current.value
         }
         Meteor.call('tasks.insert', task, (err, res) => {
-            if (!err) console.log('success') //history.push('/');
+            if (!err) history.push('/');
             else console.log(err)
         })
     }
 
     const handleClose = () => {
-        history.push('/')
+        history.goBack();
     }
 
     return (
@@ -45,12 +45,12 @@ const AddPageContainer = props => {
                     <div className="inputs-wrapper">
                         <div className='inline-input'>
                             <FontAwesomeIcon icon={faBell} />
-                            <input type="datetime" ref={date} required/>
+                            <input type="date" ref={date} required/>
                         </div>
                         <div className='inline-input'>
                             <FontAwesomeIcon icon={faTag} />
                             <select ref={category} required defaultValue>
-                                <option value="">( pick one )</option>
+                                <option value="">Pick category</option>
                                 {props.categories.map(cat => {
                                     return <option key={cat._id} value={cat.name}>{capitalize(cat.name)}</option>
                                 })}

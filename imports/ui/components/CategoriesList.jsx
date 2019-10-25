@@ -1,19 +1,22 @@
 import React from 'react'
 import { withTracker } from 'meteor/react-meteor-data';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
+import { useHistory } from 'react-router';
 import { Categories } from '../../api/categories'
-import { capitalize } from '../../startup/helpers'
+import CategoryItem from '../components/CategoryItem'
 
 const CategoriesList = props => {
+    const history = useHistory();
+
+    const handleClick = event => {
+        history.push(`/categories/${event.currentTarget.id}`);
+    }
+
     return (
         <ul className="categories-wrapper">
             {props.categories.map(cat => {
                 return (
-                    <li className='category' key={cat._id}>
-                        <div><FontAwesomeIcon icon={cat.icon} size='2x' color={cat.iconColor}  /></div>
-                        <h3>{capitalize(cat.name)}</h3>
-                        <p>{cat.taskCount} Tasks</p>
+                    <li className='category' key={cat._id} id={cat._id} onClick={handleClick}>
+                        <CategoryItem category={cat} light />
                     </li>
                 )
             })}

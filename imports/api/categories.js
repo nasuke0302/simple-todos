@@ -6,6 +6,9 @@ if (Meteor.isServer) {
     Meteor.publish('categories.all', function () {
         return Categories.find();
     });
+    Meteor.publish('categories.byId', function (_id) {
+        return Categories.find({ _id });
+    });
 
 
     const createInitialCategories = () => {
@@ -20,5 +23,5 @@ if (Meteor.isServer) {
         initCats.map(cat => Categories.upsert({ name: cat.name }, cat));
     }
 
-    /* if (Categories.find().count() === 0)  */createInitialCategories()
+    if (Categories.find().count() === 0) createInitialCategories()
 }

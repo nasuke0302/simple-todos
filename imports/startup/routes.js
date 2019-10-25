@@ -4,16 +4,18 @@ import { Router, Route, Switch } from 'react-router';
 const createBrowserHistory  = require('history').createBrowserHistory;
 
 // route components
-import ListPageContainer from '../ui/containers/ListPageContainer.jsx';
-import AddPageContainer from '../ui/containers/AddPageContainer.jsx';
+import CategoriesListPage from '../ui/containers/CategoriesListPage.jsx';
+import AddTasksPage from '../ui/containers/AddTasksPage.jsx';
+import TasksListPage from '../ui/containers/TasksListPage.jsx';
 
 const browserHistory = createBrowserHistory();
 
 export const renderRoutes = () => (
     <Router history={browserHistory}>
         <Switch>
-            <Route exact path="/" component={ListPageContainer} />
-            <Route exact path="/add" component={AddPageContainer} />
+            <Route exact path="/" component={CategoriesListPage} />
+            <Route exact path="/add" component={AddTasksPage} />
+            <Route exact path="/categories/:id" component={TasksListPage} />
         </Switch>
     </Router>
 );
